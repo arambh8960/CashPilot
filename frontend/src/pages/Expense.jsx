@@ -88,13 +88,13 @@ const ExpensePage = () => {
     type: "expense",
     category: "Food",
   });
-  const [setOverview] = useState({
-    totalExpense: 0,
-    averageExpense: 0,
-    numberOfTransactions: 0,
-    recentTransactions: [],
-    range: "monthly",
-  });
+  const [overview, setOverview] = useState({
+  totalExpense: 0,
+  averageExpense: 0,
+  numberOfTransactions: 0,
+  recentTransactions: [],
+  range: "monthly",
+});
 
   // Auth headers helper (use centralized helper where possible)
 
@@ -438,7 +438,7 @@ const ExpensePage = () => {
           label="Total Expenses"
           value={`$${totalExpense.toLocaleString()}`}
           additionalContent={
-            <div className="mt-2 text-xs text-gray-500 flex items-center">
+            <div className="mt-2 text-xs text-slate-500 dark:text-slate-300 flex items-center">
               <Calendar className="w-3 h-3 mr-1" /> {timeFrameRange.label}
             </div>
           }
@@ -454,7 +454,7 @@ const ExpensePage = () => {
           label="Average Expense"
           value={`$${averageExpense.toLocaleString()}`}
           additionalContent={
-            <div className="mt-2 text-xs text-gray-500 flex items-center">
+            <div className="mt-2 text-xs text-slate-500 dark:text-slate-300 flex items-center">
               <Calendar className="w-3 h-3 mr-1" />{" "}
               {filteredTransactions.length} transactions
             </div>
@@ -471,7 +471,7 @@ const ExpensePage = () => {
           label="Transactions"
           value={filteredTransactions.length}
           additionalContent={
-            <div className="mt-2 text-xs text-gray-500 flex items-center">
+            <div className="mt-2 text-xs text-slate-500 dark:text-slate-300 flex items-center">
               <Calendar className="w-3 h-3 mr-1" />{" "}
               {filter === "all" ? "All records" : "Filtered records"}
             </div>
@@ -490,7 +490,7 @@ const ExpensePage = () => {
                 ? "Monthly"
                 : "Daily"}{" "}
             Expense Trends
-            <span className="text-sm text-gray-500 font-normal">
+            <span className="text-sm text-slate-500 dark:text-slate-300 font-normal">
               {" "}
               ({timeFrameRange.label})
             </span>
@@ -575,7 +575,7 @@ const ExpensePage = () => {
           <h3 className={styles.transactionsTitle}>
             <DollarSign className="w-6 h-6 -mx-1.5 lg:-mx-2 md:-mx-0 text-orange-500" />
             Expense Transactions
-            <span className="text-sm text-gray-500 font-normal">
+            <span className="text-sm text-slate-500 dark:text-slate-300 font-normal">
               {" "}
               ({timeFrameRange.label})
             </span>

@@ -4,6 +4,7 @@ import Modal from "react-modal";
 import { Eye, EyeOff, Lock, User, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { getAuthHeaders, getAuthToken } from "../utils/auth";
 import { toast, ToastContainer } from "react-toastify";
 
 const BASE_URL = "http://localhost:4000/api";
@@ -71,9 +72,7 @@ const Profile = ({onUpdateProfile, onLogout }) => {
   const [passwordErrors, setPasswordErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const getAuthToken = useCallback(() => localStorage.getItem("token"), []);
-
-  // API request
+  // API request using centralized auth helper
   const handleApiRequest = useCallback(
     async (method, endpoint, data = null) => {
       const token = getAuthToken();
@@ -87,7 +86,7 @@ const Profile = ({onUpdateProfile, onLogout }) => {
         const config = {
           method,
           url: `${BASE_URL}${endpoint}`,
-          headers: { Authorization: `Bearer ${token}` },
+          headers: getAuthHeaders(),
         };
         if (data) config.data = data;
         const response = await axios(config);
@@ -102,7 +101,7 @@ const Profile = ({onUpdateProfile, onLogout }) => {
         setLoading(false);
       }
     },
-    [getAuthToken, navigate],
+    [navigate],
   );
 
   // to fetch current user
@@ -312,12 +311,12 @@ const Profile = ({onUpdateProfile, onLogout }) => {
                 <div className="space-y-4">
                   <div>
                     <p className={profileStyles.label}>Full Name</p>
-                    <p className=" font-medium text-gray-800">{user.name}</p>
+                    <p className=" font-medium text-slate-900 dark:text-white">{user.name}</p>
                   </div>
 
                   <div>
                     <p className={profileStyles.label}>Email Address</p>
-                    <p className=" font-medium text-gray-800">{user.email}</p>
+                    <p className=" font-medium text-slate-900 dark:text-white">{user.email}</p>
                   </div>
                 </div>
               )}
@@ -373,7 +372,7 @@ const Profile = ({onUpdateProfile, onLogout }) => {
             <h3 className={profileStyles.modalTitle}>Change Password</h3>
             <button
               onClick={closePasswordModal}
-              className="text-gray-500 hover:text-gray-800 disabled:opacity-50"
+              className="text-slate-500 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white disabled:opacity-50"
               disabled={loading}
             >
               <X className="w-6 h-6" />

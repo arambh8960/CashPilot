@@ -70,11 +70,16 @@ const Navbar = ({ user: propUser, onLogout }) => {
           className={navbarStyles.logoContainer}
         >
           <div className={navbarStyles.logoImage}>
-            <img src={img1} alt="logo" />
+            <img src={img1} alt="logo" style={{ width: 'auto', height: 36, objectFit: 'contain' }} />
           </div>
-          <span className={navbarStyles.logoText}>Expense Tracker</span>
+          <span className={navbarStyles.logoText}>CashPilot</span>
         </div>
 
+        {/* user */}
+        <div className="flex items-center gap-3">
+          {/* placeholder for future controls */}
+        </div>
+        
         {/* if the user is present */}
         {user && (
           <div className={navbarStyles.userContainer} ref={menuRef}>

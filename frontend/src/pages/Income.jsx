@@ -66,7 +66,7 @@ const IncomeChart = ({ chartData, timeFrame, timeFrameRange }) => (
             ? "Monthly"
             : "Daily"}{" "}
         Income Trends
-        <span className="text-sm text-gray-500 font-normal">
+  <span className="text-sm text-slate-500 dark:text-slate-300 font-normal">
           {" "}
           ({timeFrameRange.label})
         </span>
@@ -597,7 +597,7 @@ const Income = () => {
           <h3 className={styles.sectionTitle}>
             <DollarSign className="w-5 h-5 md:w-6 md:h-6 text-green-500" />
             Income Transactions
-            <span className="text-sm text-gray-500 font-normal">
+            <span className="text-sm text-slate-500 dark:text-slate-300 font-normal">
               {" "}
               ({timeFrameRange.label})
             </span>

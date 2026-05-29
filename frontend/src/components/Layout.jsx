@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import { getAuthHeaders } from "../utils/auth";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 const API_BASE = "http://localhost:4000/api";
 const CATEGORY_ICONS = {
@@ -277,6 +277,17 @@ const Layout = ({ onLogout, user }) => {
     lastUpdated,
   };
 
+  const location = useLocation();
+  const pageMeta = useMemo(() => {
+    const path = location.pathname || "/";
+    if (path === "/") return { title: "Dashboard", subtitle: "Welcome Back" };
+    if (path.startsWith("/income")) return { title: "Income", subtitle: "Manage your incomes" };
+    if (path.startsWith("/expense")) return { title: "Expense", subtitle: "Track and manage your expenses" };
+    if (path.startsWith("/profile")) return { title: "Profile", subtitle: "View and edit your profile" };
+    if (path.startsWith("/budget-coach")) return { title: "AI Coach", subtitle: "Personalized budgeting help" };
+    return { title: "Dashboard", subtitle: "Welcome Back" };
+  }, [location.pathname]);
+
   const getSavingsRating = (rate) =>
     rate > 30 ? "Excellent" : rate > 20 ? "Good" : "Needs improvement";
 
@@ -311,8 +322,8 @@ const Layout = ({ onLogout, user }) => {
       <div className={styles.layout.mainContainer(sidebarCollapsed)}>
         <div className={styles.header.container}>
           <div>
-            <h1 className={styles.header.title}>Dashboard</h1>
-            <p className={styles.header.subtitle}>Welcome Back</p>
+            <h1 className={styles.header.title}>{pageMeta.title}</h1>
+            <p className={styles.header.subtitle}>{pageMeta.subtitle}</p>
           </div>
         </div>
 

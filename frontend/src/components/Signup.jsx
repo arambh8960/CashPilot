@@ -14,7 +14,7 @@ import {
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 // ─── Validation ──────────────────────────────────────────────────────────────
-const validate = ({ name, email, password }) => {
+const validate = ({ name, email, password, confirmPassword }) => {
   const e = {};
 
   if (!name.trim()) e.name = "Name is required.";
@@ -26,6 +26,10 @@ const validate = ({ name, email, password }) => {
   if (!password) e.password = "Password is required.";
   else if (password.length < 8)
     e.password = "Password must be at least 8 characters.";
+
+  if (!confirmPassword) e.confirmPassword = "Please confirm your password.";
+  else if (password !== confirmPassword)
+    e.confirmPassword = "Passwords do not match.";
 
   return e;
 };
@@ -157,6 +161,7 @@ const Signup = ({ onSignup }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
@@ -175,7 +180,7 @@ const Signup = ({ onSignup }) => {
     setApiError("");
     setSuccessMsg("");
 
-    const errs = validate({ name, email, password });
+    const errs = validate({ name, email, password, confirmPassword });
 
     setErrors(errs);
 
@@ -404,6 +409,32 @@ const Signup = ({ onSignup }) => {
               onChange={(e) => setPassword(e.target.value)}
               error={errors.password}
               placeholder="Min. 8 characters"
+              right={
+                <button
+                  type="button"
+                  onClick={() =>
+                    setShowPassword(!showPassword)
+                  }
+                  style={styles.eyeBtn}
+                >
+                  {showPassword ? (
+                    <EyeOff size={17} />
+                  ) : (
+                    <Eye size={17} />
+                  )}
+                </button>
+              }
+            />
+
+            <Field
+              id="confirmPassword"
+              label="Confirm Password"
+              icon={Lock}
+              type={showPassword ? "text" : "password"}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              error={errors.confirmPassword}
+              placeholder="Re-enter password"
               right={
                 <button
                   type="button"

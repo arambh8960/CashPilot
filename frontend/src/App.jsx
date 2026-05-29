@@ -14,6 +14,7 @@ import axios from "axios";
 import Income from "./pages/Income";
 import Expense from "./pages/Expense";
 import Profile from "./pages/Profile";
+import BudgetCoach from "./pages/budgetCoach";
 
 const API_URL = "http://localhost:4000";
 
@@ -192,10 +193,10 @@ const App = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-[#020617] transition-colors duration-300">
         <div className="flex flex-col items-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+          <p className="mt-4 text-slate-700 dark:text-slate-300">Loading...</p>
         </div>
       </div>
     );
@@ -271,6 +272,16 @@ const App = () => {
             }
           />
         </Route>
+
+        {/* Budget coach as a standalone page (no sidebar) but protected */}
+        <Route
+          path="/budget-coach"
+          element={
+            <ProtectedRoute user={user}>
+              <BudgetCoach />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="*"

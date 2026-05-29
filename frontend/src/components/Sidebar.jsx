@@ -11,6 +11,7 @@ import {
   Menu,
   User,
   X,
+  Sparkles,
 } from "lucide-react";
 
 const MENU_ITEMS = [
@@ -18,6 +19,7 @@ const MENU_ITEMS = [
   { text: "Income", path: "/income", icon: <ArrowUp size={20} /> },
   { text: "Expenses", path: "/expense", icon: <ArrowDown size={20} /> },
   { text: "Profile", path: "/profile", icon: <User size={20} /> },
+  { text: "AI Coach", path: "/budget-coach", icon: <Sparkles size={20} /> },
 ];
 
 const Sidebar = ({ user, isCollapsed, setIsCollapsed }) => {
@@ -162,17 +164,17 @@ const Sidebar = ({ user, isCollapsed, setIsCollapsed }) => {
           >
             <div className=" flex items-center">
               <div className={sidebarStyles.userInitials.base}>{initial}</div>
-              {!isCollapsed && (
+                  {!isCollapsed && (
                 <motion.div
                   className="ml-3 overflow-hidden"
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -10 }}
                 >
-                  <h2 className="text-sm font-bold text-gray-800 truncate">
+                  <h2 className="text-sm font-bold text-slate-900 dark:text-white truncate">
                     {username}
                   </h2>
-                  <p className=" text-xs text-gray-500 truncate">{email}</p>
+                  <p className=" text-xs text-slate-500 dark:text-slate-300 truncate">{email}</p>
                 </motion.div>
               )}
             </div>
@@ -192,16 +194,7 @@ const Sidebar = ({ user, isCollapsed, setIsCollapsed }) => {
                 : sidebarStyles.footerContainer.expanded,
             )}
           >
-            <Link
-              className={cn(
-                sidebarStyles.footerLink.base,
-                isCollapsed && sidebarStyles.footerLink.collapsed,
-              )}
-              to="https://www.hexagondigitalservices.com/contact"
-            >
-              <HelpCircle size={20} className=" text-gray-500" />
-              {!isCollapsed && <span>Support</span>}
-            </Link>
+              {/* Support link removed per UX request */}
 
             <button
               onClick={handleLogout}
@@ -257,10 +250,10 @@ const Sidebar = ({ user, isCollapsed, setIsCollapsed }) => {
                       {initial}
                     </div>
                     <div>
-                      <h2 className="text-lg font-bold text-gray-800">
-                        {username}
-                      </h2>
-                      <p className=" text-sm text-gray-500">{email}</p>
+                      <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+                            {username}
+                          </h2>
+                          <p className=" text-sm text-slate-500 dark:text-slate-300">{email}</p>
                     </div>
                   </div>
                   <button
@@ -302,14 +295,7 @@ const Sidebar = ({ user, isCollapsed, setIsCollapsed }) => {
                 </div>
 
                 <div className={sidebarStyles.mobileFooter}>
-                  <Link
-                    onClick={() => setMobileOpen(false)}
-                    to="https://www.hexagondigitalservices.com/contact"
-                    className={sidebarStyles.mobileFooterLink}
-                  >
-                    <HelpCircle size={20} className=" text-gray-500" />
-                    <span>Support</span>
-                  </Link>
+                    {/* Mobile support link removed */}
                   <button
                     onClick={handleLogout}
                     className={sidebarStyles.mobileLogoutButton}

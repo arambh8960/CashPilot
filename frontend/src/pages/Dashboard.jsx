@@ -689,7 +689,7 @@ const Dashboard = () => {
         {/* Expense Column */}
         <div className={dashboardStyles.listContainer}>
           <div className={dashboardStyles.listHeader}>
-            <h3 className="text-lg md:text-xl lg:text-xl xl:text-xl font-bold text-gray-800 md:mt-3 mt-3 flex items-center gap-3">
+            <h3 className="text-lg md:text-xl lg:text-xl xl:text-xl font-bold text-slate-900 dark:text-white md:mt-3 mt-3 flex items-center gap-3">
               <ArrowDown className="w-6 h-6 text-orange-500" /> Recent Expenses{" "}
               <span className={dashboardStyles.listSubtitle}>
                 {" "}

@@ -1,0 +1,9 @@
+# Environment files
+.env
+.env.local
+.env.*
+backend/.env
+
+# Node
+node_modules
+dist
