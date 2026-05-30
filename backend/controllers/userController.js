@@ -60,7 +60,7 @@ export async function registerUser(req, res) {
       });
     }
 
-    await sendOtpEmail(email, otp);
+    //await sendOtpEmail(email, otp);
 
     return res.status(201).json({
       success: true,
