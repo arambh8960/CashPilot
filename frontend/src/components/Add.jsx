@@ -29,13 +29,18 @@ const AddTransactionModal = ({
 }) => {
   if (!showModal) return null;
 
-  // Get current date in YYYY-MM-DD format
   const today = new Date();
   const currentYear = today.getFullYear();
   const currentDate = today.toISOString().split("T")[0];
   const minDate = `${currentYear}-01-01`;
 
   const colorClass = modalStyles.colorClasses[color];
+
+  // FIX: force text color on all inputs so it shows on any background
+  const inputStyle = {
+    color: "#111827",
+    backgroundColor: "#ffffff",
+  };
 
   return (
     <div className={modalStyles.overlay}>
@@ -57,6 +62,7 @@ const AddTransactionModal = ({
           }}
         >
           <div className={modalStyles.form}>
+
             <div>
               <label className={modalStyles.label}>Description</label>
               <input
@@ -69,10 +75,9 @@ const AddTransactionModal = ({
                   }))
                 }
                 className={modalStyles.input(colorClass.ring)}
+                style={inputStyle}
                 placeholder={
-                  type === "both"
-                    ? "Salary, Funds, etc."
-                    : "Groceries, Rent, etc."
+                  type === "both" ? "Salary, Funds, etc." : "Groceries, Rent, etc."
                 }
                 required
               />
@@ -90,7 +95,10 @@ const AddTransactionModal = ({
                   }))
                 }
                 className={modalStyles.input(colorClass.ring)}
+                style={inputStyle}
                 placeholder="0.00"
+                min="0.01"
+                step="0.01"
                 required
               />
             </div>
@@ -118,10 +126,7 @@ const AddTransactionModal = ({
                       modalStyles.colorClasses.orange.typeButtonSelected,
                     )}
                     onClick={() =>
-                      setNewTransaction((prev) => ({
-                        ...prev,
-                        type: "expense",
-                      }))
+                      setNewTransaction((prev) => ({ ...prev, type: "expense" }))
                     }
                   >
                     Expense
@@ -141,6 +146,7 @@ const AddTransactionModal = ({
                   }))
                 }
                 className={modalStyles.input(colorClass.ring)}
+                style={inputStyle}
               >
                 {categories.map((cat) => (
                   <option value={cat} key={cat}>
@@ -156,12 +162,14 @@ const AddTransactionModal = ({
                 type="date"
                 value={newTransaction.date}
                 onChange={(e) =>
-                  newTransaction((prev) => ({
+                  // FIX: was newTransaction(...) — crash bug fixed
+                  setNewTransaction((prev) => ({
                     ...prev,
                     date: e.target.value,
                   }))
                 }
                 className={modalStyles.input(colorClass.ring)}
+                style={inputStyle}
                 min={minDate}
                 max={currentDate}
                 required
@@ -174,6 +182,7 @@ const AddTransactionModal = ({
             >
               {buttonText}
             </button>
+
           </div>
         </form>
       </div>
