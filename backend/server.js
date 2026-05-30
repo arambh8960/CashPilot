@@ -16,6 +16,7 @@ const port = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.set("trust proxy", 1);
 
 // FIX: rate limit auth routes to prevent brute force
 const authLimiter = rateLimit({
