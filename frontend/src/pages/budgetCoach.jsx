@@ -100,7 +100,7 @@ const BudgetCoach = () => {
     setMessages([]);
     setSuggestions([]);
     try {
-      const res = await axios.get(`${API_URL}/api/budget-coach`, {
+      const res = await axios.get(`${API_URL}/budget-coach`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       });
       const { message, suggestions: sugg } = res.data.data;
@@ -134,7 +134,7 @@ const BudgetCoach = () => {
       }));
 
       const res = await axios.post(
-        `${API_URL}/api/budget-coach/chat`,
+        `${API_URL}/budget-coach/chat`,
         { message: userMsg, history },
         { headers: { Authorization: `Bearer ${getToken()}` } }
       );

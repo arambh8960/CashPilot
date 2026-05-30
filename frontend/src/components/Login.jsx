@@ -27,7 +27,7 @@ const Login = ({ onLogin }) => {
 
     setIsLoading(true);
     try {
-      const res = await axios.post(`${API_URL}/api/user/login`, { email, password });
+      const res = await axios.post(`${API_URL}/user/login`, { email, password });
       const { token, user } = res.data;
 
       // save to correct storage based on rememberMe

@@ -189,7 +189,7 @@ const Signup = ({ onSignup }) => {
     setIsLoading(true);
 
     try {
-      await axios.post(`${API_URL}/api/user/register`, {
+      await axios.post(`${API_URL}/user/register`, {
         name,
         email,
         password,
@@ -223,7 +223,7 @@ const Signup = ({ onSignup }) => {
     setIsLoading(true);
 
     try {
-      const res = await axios.post(`${API_URL}/api/user/verify-otp`, {
+      const res = await axios.post(`${API_URL}/user/verify-otp`, {
         email,
         otp: code,
       });
@@ -257,7 +257,7 @@ const Signup = ({ onSignup }) => {
     setSuccessMsg("");
 
     try {
-      await axios.post(`${API_URL}/api/user/resend-otp`, { email });
+      await axios.post(`${API_URL}/user/resend-otp`, { email });
 
       setSuccessMsg("New OTP sent to your email!");
 

@@ -6,8 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getAuthHeaders } from "../utils/auth";
 
-const BASE_URL = "http://localhost:4000/api";
-
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 const Navbar = ({ user: propUser, onLogout }) => {
   const navigate = useNavigate();
   const menuRef = useRef();
