@@ -1,28 +1,15 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
-console.log("EMAIL_USER:", process.env.EMAIL_USER);
-console.log("EMAIL_PASS exists:", !!process.env.EMAIL_PASS);
-
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  connectionTimeout: 10000,
-  greetingTimeout: 10000,
-  socketTimeout: 10000,
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendOtpEmail(toEmail, otp) {
   try {
     console.log("Sending OTP to:", toEmail);
 
-    const mailOptions = {
-      from: `"${process.env.APP_NAME}" <${process.env.EMAIL_USER}>`,
-      to: toEmail,
+    const { data, error } = await resend.emails.send({
+      from: "CashPilot <onboarding@resend.dev>",
+      to: [toEmail],
       subject: "Your Email Verification OTP",
-
       html: `
         <div style="font-family:Arial,sans-serif;max-width:480px;margin:auto;padding:32px;border:1px solid #e5e5e5;border-radius:12px;">
           
@@ -45,14 +32,17 @@ export async function sendOtpEmail(toEmail, otp) {
 
         </div>
       `,
-    };
+    });
 
-    const info = await transporter.sendMail(mailOptions);
+    if (error) {
+      console.error("Resend Error:", error);
+      throw error;
+    }
 
     console.log("OTP email sent successfully");
-    console.log("Message ID:", info.messageId);
+    console.log(data);
 
-    return info;
+    return data;
   } catch (error) {
     console.error("Send OTP Email Error:", error);
     throw error;
