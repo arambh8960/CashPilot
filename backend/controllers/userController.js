@@ -59,7 +59,9 @@ export async function registerUser(req, res) {
         otp: { code: otp, expiresAt: otpExpiresAt },
       });
     }
+   console.log("Generated OTP:", otp);
 
+await sendOtpEmail(email, otp);
     //await sendOtpEmail(email, otp);
 
     return res.status(201).json({
