@@ -1,48 +1,64 @@
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const transporter = nodemailer.createTransport({
+  host: "smtp-relay.brevo.com",
+  port: 587,
+  secure: false,
+
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
 export async function sendOtpEmail(toEmail, otp) {
   try {
     console.log("Sending OTP to:", toEmail);
 
-    const { data, error } = await resend.emails.send({
-      from: "CashPilot <onboarding@resend.dev>",
-      to: [toEmail],
-      subject: "Your Email Verification OTP",
+    const info = await transporter.sendMail({
+      from: '"CashPilot" <arambh.tiwari11@gmail.com>',
+      to: toEmail,
+      subject: "Verify Your Email - CashPilot",
+
       html: `
-        <div style="font-family:Arial,sans-serif;max-width:480px;margin:auto;padding:32px;border:1px solid #e5e5e5;border-radius:12px;">
-          
-          <h2 style="color:#1a1a1a;margin-bottom:8px;">
-            Verify your email
-          </h2>
+      <div style="font-family:Arial,sans-serif;max-width:500px;margin:auto;padding:20px">
+        
+        <h2>Verify your email</h2>
 
-          <p style="color:#555;margin-bottom:24px;">
-            Use the OTP below to complete your registration.
-            It expires in <strong>10 minutes</strong>.
-          </p>
+        <p>
+          Thanks for signing up on CashPilot.
+        </p>
 
-          <div style="background:#f5f5f5;border-radius:8px;padding:24px;text-align:center;letter-spacing:12px;font-size:36px;font-weight:700;color:#1a1a1a;">
-            ${otp}
-          </div>
+        <p>
+          Your OTP is:
+        </p>
 
-          <p style="color:#999;font-size:13px;margin-top:24px;">
-            If you did not request this, please ignore this email.
-          </p>
-
+        <div
+          style="
+            font-size:32px;
+            font-weight:bold;
+            letter-spacing:8px;
+            background:#f5f5f5;
+            padding:20px;
+            text-align:center;
+            border-radius:10px;
+          "
+        >
+          ${otp}
         </div>
+
+        <p style="margin-top:20px">
+          OTP will expire in 10 minutes.
+        </p>
+
+      </div>
       `,
     });
 
-    if (error) {
-      console.error("Resend Error:", error);
-      throw error;
-    }
+    console.log("Email sent successfully");
+    console.log(info);
 
-    console.log("OTP email sent successfully");
-    console.log(data);
-
-    return data;
+    return info;
   } catch (error) {
     console.error("Send OTP Email Error:", error);
     throw error;
