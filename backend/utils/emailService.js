@@ -4,54 +4,28 @@ console.log("EMAIL_USER:", process.env.EMAIL_USER);
 console.log("EMAIL_PASS exists:", !!process.env.EMAIL_PASS);
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
+  service: "gmail",
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-  family: 4,
+  connectionTimeout: 10000,
+  greetingTimeout: 10000,
+  socketTimeout: 10000,
 });
 
-// Verify transporter
-transporter.verify((error) => {
-
-  if (error) {
-
-    console.log(
-      "Email transporter error:",
-      error
-    );
-
-  } else {
-
-    console.log(
-      "Email server ready"
-    );
-
-  }
-
-});
-
-export async function sendOtpEmail(
-  toEmail,
-  otp
-) {
-
+export async function sendOtpEmail(toEmail, otp) {
   try {
+    console.log("Sending OTP to:", toEmail);
 
     const mailOptions = {
-
       from: `"${process.env.APP_NAME}" <${process.env.EMAIL_USER}>`,
-
       to: toEmail,
-
       subject: "Your Email Verification OTP",
 
       html: `
         <div style="font-family:Arial,sans-serif;max-width:480px;margin:auto;padding:32px;border:1px solid #e5e5e5;border-radius:12px;">
-
+          
           <h2 style="color:#1a1a1a;margin-bottom:8px;">
             Verify your email
           </h2>
@@ -66,33 +40,21 @@ export async function sendOtpEmail(
           </div>
 
           <p style="color:#999;font-size:13px;margin-top:24px;">
-            If you did not request this,
-            please ignore this email.
+            If you did not request this, please ignore this email.
           </p>
 
         </div>
       `,
-
     };
 
-    const info = await transporter.sendMail(
-      mailOptions
-    );
+    const info = await transporter.sendMail(mailOptions);
 
-    console.log(
-      "OTP email sent:",
-      info.messageId
-    );
+    console.log("OTP email sent successfully");
+    console.log("Message ID:", info.messageId);
 
     return info;
-
   } catch (error) {
-
-    console.log(
-      "Send OTP Email Error:",
-      error
-    );
-
+    console.error("Send OTP Email Error:", error);
     throw error;
   }
 }
