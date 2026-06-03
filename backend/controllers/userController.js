@@ -59,10 +59,12 @@ export async function registerUser(req, res) {
         otp: { code: otp, expiresAt: otpExpiresAt },
       });
     }
-   console.log("Generated OTP:", otp);
+    console.log("Generated OTP:", otp);
 
-await sendOtpEmail(email, otp);
-    //await sendOtpEmail(email, otp);
+    // FIX: Removed 'await' so email sends in the background, making response instant
+    sendOtpEmail(email, otp).catch((error) => {
+      console.error("Background OTP Email Delivery Error:", error);
+    });
 
     return res.status(201).json({
       success: true,
@@ -143,7 +145,10 @@ export async function resendOtp(req, res) {
     user.otp = { code: otp, expiresAt: new Date(Date.now() + 10 * 60 * 1000) };
     await user.save();
 
-    await sendOtpEmail(email, otp);
+    // FIX: Removed 'await' so resending OTP doesn't hang the UI
+    sendOtpEmail(email, otp).catch((error) => {
+      console.error("Background Resend OTP Email Delivery Error:", error);
+    });
 
     return res.status(200).json({ success: true, message: "OTP resent successfully." });
   } catch (error) {
