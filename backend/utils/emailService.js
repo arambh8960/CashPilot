@@ -1,13 +1,23 @@
 import nodemailer from "nodemailer";
 
+// Configured explicitly with IPv4 to prevent Render's IPv6 ENETUNREACH errors
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "74.125.142.108", // Direct IPv4 address for smtp.gmail.com
+  port: 465,
+  secure: true, // Use SSL
   auth: {
     type: "OAuth2",
     user: process.env.EMAIL_USER,
     clientId: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
+  },
+  connectionTimeout: 10000, // 10 seconds timeout
+  greetingTimeout: 10000,
+  tls: {
+    // Forces the SSL handshake to validate against Gmail's domain name
+    servername: "smtp.gmail.com",
+    rejectUnauthorized: true,
   },
 });
 
@@ -25,7 +35,6 @@ export async function sendOtpEmail(toEmail, otp) {
       from: `"CashPilot" <${process.env.EMAIL_USER}>`,
       to: toEmail,
       subject: "Your Email Verification OTP",
-
       html: `
         <div style="font-family:Arial,sans-serif;max-width:500px;margin:auto;padding:20px;">
           <h2>Verify your email</h2>
@@ -54,9 +63,7 @@ export async function sendOtpEmail(toEmail, otp) {
     };
 
     const info = await transporter.sendMail(mailOptions);
-
     console.log("OTP email sent:", info.messageId);
-
     return info;
   } catch (error) {
     console.error("Send OTP Email Error:", error);
