@@ -11,7 +11,8 @@ import {
   CheckCircle,
 } from "lucide-react";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
+const API_URL = import.meta.env.VITE_API_URL;
+// for local host deployment use VITE_LOCAL_API_URL instead as we have set VITE_API_URL for render deployment
 
 // ─── Validation ──────────────────────────────────────────────────────────────
 const validate = ({ name, email, password, confirmPassword }) => {
