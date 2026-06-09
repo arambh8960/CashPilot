@@ -68,7 +68,7 @@ const Login = ({ onLogin }) => {
             <User size={28} color="#fff" />
           </div>
           <h1 style={styles.title}>Welcome Back</h1>
-          <p style={styles.subtitle}>Sign in to your ExpenseTracker account</p>
+          <p style={styles.subtitle}>Sign in to your CashPilot account</p>
         </div>
 
         {/* Error message */}
